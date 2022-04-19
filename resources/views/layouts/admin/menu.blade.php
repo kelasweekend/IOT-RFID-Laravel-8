@@ -8,8 +8,8 @@
           <li class="{{ request()->is('admin/debit*') ? 'active-page' : '' }}">
                     <a href="{{route('admin.debit')}}"><i data-feather="credit-card"></i>Debit Master</a>
           </li>
-          <li class="{{ request()->is('admin/banner*') ? 'active-page' : '' }}">
-                    <a href="#"><i data-feather="user-plus"></i>User Master</a>
+          <li class="{{ request()->is('admin/user*') ? 'active-page' : '' }}">
+                    <a href="{{route('admin.user')}}"><i data-feather="user-plus"></i>User Master</a>
           </li>
           <li class="{{ request()->is('admin/banner*') ? 'active-page' : '' }}">
                     <a href="#"><i data-feather="dollar-sign"></i>Mutasi Account</a>

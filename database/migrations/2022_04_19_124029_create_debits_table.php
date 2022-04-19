@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUidUsersTable extends Migration
+class CreateDebitsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,14 @@ class CreateUidUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('uid_users', function (Blueprint $table) {
+        Schema::create('debits', function (Blueprint $table) {
             $table->id();
-            $table->string('code');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->string('code')->unique();
             $table->string('amount');
+            $table->string('limit')->nullable();
+            $table->string('security');
             $table->timestamps();
         });
     }
@@ -28,6 +32,6 @@ class CreateUidUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('uid_users');
+        Schema::dropIfExists('debits');
     }
 }
