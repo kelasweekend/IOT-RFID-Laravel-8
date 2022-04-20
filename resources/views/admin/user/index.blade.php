@@ -10,12 +10,18 @@
                               <div class="col">
                                         <div class="card">
                                                   <div class="card-body">
-                                                            <h5 class="card-title mb-3">@yield('title')</h5>
+                                                            <div class="d-flex justify-content-between mb-3">
+                                                                      <h5 class="card-title mb-3">@yield('title')</h5>
+                                                                      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                                                                Add User
+                                                                      </button>
+                                                            </div>
                                                             <p>Berikut List User, Pastikan Role User Sudah di isi dan Check Seluruh User Jika Ada Kegiatan Yang
                                                                       Tidak di inginkan.</p>
                                                             <table id="zero-conf" class="display datatable" style="width:100%">
                                                                       <thead>
                                                                                 <tr>
+                                                                                          <th>No</th>
                                                                                           <th>Full Name</th>
                                                                                           <th>Email</th>
                                                                                           <th>Action</th>
@@ -26,6 +32,7 @@
                                                                       </tbody>
                                                                       <tfoot>
                                                                                 <tr>
+                                                                                          <th>No</th>
                                                                                           <th>Full Name</th>
                                                                                           <th>Email</th>
                                                                                           <th>Action</th>
@@ -39,6 +46,44 @@
           </div>
 
           <!-- Modal -->
+          <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
+                    <div class="modal-dialog">
+                              <div class="modal-content">
+                                        <div class="modal-header">
+                                                  <h5 class="modal-title" id="exampleModalLabel">Add User</h5>
+                                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                                  <form id="AddForm" name="AddForm" class="form-horizontal">
+                                                            <input type="hidden" name="Add_id" id="Add_id">
+                                                            <div class="mb-3">
+                                                                      <label for="exampleInputEmail1" class="form-label">Full Name</label>
+                                                                      <div class="input-group flex-nowrap">
+                                                                                <span class="input-group-text" id="addon-wrapping"><i class="fa fa-user text-muted"></i></span>
+                                                                                <input type="text" name="name" id="name" class="form-control" placeholder="Budi ">
+                                                                      </div>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                      <label for="exampleInputEmail1" class="form-label">Email Address</label>
+                                                                      <div class="input-group flex-nowrap">
+                                                                                <span class="input-group-text" id="addon-wrapping"><i class="fa fa-envelope text-muted"></i></span>
+                                                                                <input type="email" name="email" id="email" class="form-control" placeholder="budi@gmai.com">
+                                                                      </div>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                      <label for="exampleInputEmail1" class="form-label">Password</label>
+                                                                      <div class="input-group flex-nowrap">
+                                                                                <span class="input-group-text" id="addon-wrapping"><i class="fa fa-lock text-muted"></i></span>
+                                                                                <input type="password" name="password" id="password" class="form-control" placeholder="*****">
+                                                                      </div>
+                                                            </div>
+                                                            <button type="button" class="btn btn-primary mt-3 mb-3 float-end shadow-sm" id="addBtn">Submit</button>
+                                                  </form>
+                                        </div>
+                              </div>
+                    </div>
+          </div>
+
           <div class="modal fade" id="pinModel" tabindex="-1" aria-labelledby="pinModelLabel" aria-hidden="true">
                     <div class="modal-dialog">
                               <div class="modal-content m-3">
@@ -133,6 +178,10 @@
                                         lengthChange: true,
                                         autoWidth: true,
                                         columns: [{
+                                                            data: 'DT_RowIndex',
+                                                            name: 'DT_RowIndex'
+                                                  },
+                                                  {
                                                             data: 'name',
                                                             name: 'name'
                                                   },
@@ -190,6 +239,44 @@
                                                             $('input[name=name]').val(data.name);
                                                   }
                                         })
+                              });
+
+                              //  add data
+                              $('#addBtn').click(function(e) {
+                                        e.preventDefault();
+
+                                        $.ajax({
+                                                  data: $('#AddForm').serialize(),
+                                                  url: "{{ route('admin.user.add') }}",
+                                                  type: "POST",
+                                                  dataType: 'json',
+                                                  success: function(response) {
+                                                            if (response.success) {
+                                                                      Swal.fire({
+                                                                                icon: "success",
+                                                                                title: "Selamat",
+                                                                                text: response
+                                                                                          .success
+                                                                      });
+                                                                      $('#AddForm').trigger("reset");
+                                                                      $('#exampleModal').modal('hide');
+                                                                      table.draw();
+                                                            } else {
+                                                                      Swal.fire({
+                                                                                icon: "error",
+                                                                                title: "Mohon Maaf !",
+                                                                                text: response.error
+                                                                      });
+                                                            }
+                                                  },
+                                                  error: function() {
+                                                            Swal.fire({
+                                                                      icon: "error",
+                                                                      title: "Oops...",
+                                                                      text: "Something went wrong!"
+                                                            });
+                                                  }
+                                        });
                               });
 
                               //   edt pin

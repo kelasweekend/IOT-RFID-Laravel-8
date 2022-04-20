@@ -27,6 +27,6 @@
                     Lainnya
           </li>
           <li class="{{ request()->is('admin/banner*') ? 'active-page' : '' }}">
-                    <a href="#"><i data-feather="gift"></i>Beli System Ini</a>
+                    <a href="#"><i data-feather="shield"></i>ATM Center</a>
           </li>
 </ul>

@@ -16,6 +16,7 @@
                                                             <table id="zero-conf" class="display datatable" style="width:100%">
                                                                       <thead>
                                                                                 <tr>
+                                                                                          <th>No</th>
                                                                                           <th>Debit Number</th>
                                                                                           <th>Full Name</th>
                                                                                           <th>Limit</th>
@@ -27,6 +28,7 @@
                                                                       </tbody>
                                                                       <tfoot>
                                                                                 <tr>
+                                                                                          <th>No</th>
                                                                                           <th>Debit Number</th>
                                                                                           <th>Full Name</th>
                                                                                           <th>Limit</th>
@@ -158,6 +160,9 @@
                                         lengthChange: true,
                                         autoWidth: true,
                                         columns: [{
+                                                            data: 'DT_RowIndex',
+                                                            name: 'DT_RowIndex'
+                                                  }, {
                                                             data: 'code',
                                                             name: 'code'
                                                   },

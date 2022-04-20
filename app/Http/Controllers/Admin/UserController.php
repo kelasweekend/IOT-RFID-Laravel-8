@@ -86,4 +86,24 @@ class UserController extends Controller
         $this->user->find($id)->delete();
         return response()->json(['success' => 'User hass Been Deleted']);
     }
+
+    public function store(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'email' => 'required|email|unique:users',
+            'password' => 'required',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()->all()]);
+        }
+
+        User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password)
+        ]);
+
+        return response()->json(['success' => 'User hass Been Added']);
+    }
 }

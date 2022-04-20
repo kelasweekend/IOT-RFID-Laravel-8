@@ -30,6 +30,7 @@ Route::prefix('admin')->group(function () {
 
     // User Management System
     Route::get('user', [App\Http\Controllers\Admin\UserController::class, 'index'])->name('admin.user');
+    Route::post('user', [App\Http\Controllers\Admin\UserController::class, 'store'])->name('admin.user.add');
     Route::get('user/{id}/edit', [App\Http\Controllers\Admin\UserController::class, 'editData'])->name('admin.user.edit');
     Route::post('user/{id}/password', [App\Http\Controllers\Admin\UserController::class, 'passwordData'])->name('admin.user.password');
     Route::post('user/{id}/update', [App\Http\Controllers\Admin\UserController::class, 'updateData'])->name('admin.user.update');
